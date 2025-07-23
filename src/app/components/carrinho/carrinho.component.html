@@ -1,0 +1,90 @@
+<div class="carrinho-container">
+  <div class="header">
+    <button class="btn-voltar" (click)="continuarComprando()">
+      ← Continuar Pedindo
+    </button>
+    <h1>🛒 Sua comanda</h1>
+    <button *ngIf="itens.length > 0" class="btn-limpar" (click)="limparCarrinho()">
+      Limpar
+    </button>
+  </div>
+
+  <div *ngIf="itens.length === 0" class="carrinho-vazio">
+    <div class="icone-vazio">🛒</div>
+    <h2>Sua comanda está vazia</h2>
+    <p>Adicione alguns produtos para começar!</p>
+    <button class="btn-continuar" (click)="continuarComprando()">
+      Ver Produtos
+    </button>
+  </div>
+
+  <div *ngIf="itens.length > 0" class="carrinho-content">
+    <div class="itens-lista">
+      <div *ngFor="let item of itens" class="item-card">
+        <div class="item-imagem">
+          <span class="emoji">{{ item.produto.imagem }}</span>
+        </div>
+
+        <div class="item-info">
+          <h3>{{ item.produto.nome }}</h3>
+          <p *ngIf="item.produto.observacao" class="observacao">Obs: {{ item.produto.observacao }}</p>
+          <p class="descricao">{{ item.produto.descricao }}</p>
+          <div class="preco-unitario">
+            R$ {{ item.produto.preco.toFixed(2).replace('.', ',') }} cada
+          </div>
+        </div>
+
+        <div class="item-quantidade">
+          <button
+            class="btn-quantidade"
+            (click)="alterarQuantidade(item.produto.id, item.quantidade - 1)"
+            [disabled]="item.quantidade <= 1"
+          >
+            -
+          </button>
+          <span class="quantidade">{{ item.quantidade }}</span>
+          <button
+            class="btn-quantidade"
+            (click)="alterarQuantidade(item.produto.id, item.quantidade + 1)"
+          >
+            +
+          </button>
+        </div>
+
+        <div class="item-preco">
+          <span class="preco-total">
+            R$ {{ (item.produto.preco * item.quantidade).toFixed(2).replace('.', ',') }}
+          </span>
+        </div>
+
+        <div class="item-acoes">
+          <button
+            class="btn-remover"
+            (click)="removerItem(item.produto.id)"
+          >
+            🗑️
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="resumo-pedido">
+      <h3>Resumo do Pedido</h3>
+      <div class="resumo-item">
+        <span>Itens ({{ getQuantidadeItens() }}):</span>
+        <span>R$ {{ total.toFixed(2).replace('.', ',') }}</span>
+      </div>
+      <div class="resumo-total">
+        <span>Total:</span>
+        <span>R$ {{ total.toFixed(2).replace('.', ',') }}</span>
+      </div>
+
+      <button
+        class="btn-finalizar"
+        (click)="finalizarPedido()"
+      >
+        Confirmar Pedido
+      </button>
+    </div>
+  </div>
+</div>

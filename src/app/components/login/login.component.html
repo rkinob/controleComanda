@@ -1,0 +1,31 @@
+<div class="login-container">
+  <h2>Acesso ao Menu</h2>
+
+
+
+
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="mesa">Número da Mesa</label>
+      <input id="mesa" type="text" formControlName="mesa"  />
+    </div>
+
+    <div class="form-group">
+      <label for="nome">Nome</label>
+      <input id="nome" type="text" formControlName="nome" />
+      <div *ngIf="loginForm.get('nome')?.touched && loginForm.get('nome')?.invalid" class="error">
+        Nome é obrigatório.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="celular">Celular</label>
+      <input id="celular" type="tel" formControlName="celular" placeholder="Ex: 11999999999" />
+      <div *ngIf="loginForm.get('celular')?.touched && loginForm.get('celular')?.invalid" class="error">
+        Celular inválido.
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="loginForm.invalid">Entrar</button>
+  </form>
+</div>

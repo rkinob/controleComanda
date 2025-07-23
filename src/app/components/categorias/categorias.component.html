@@ -1,0 +1,25 @@
+<div class="categorias-container">
+  <div class="header">
+    <h1>Escolha uma Categoria</h1>
+    <p>Selecione o tipo de produto que você deseja</p>
+  </div>
+
+  <div class="categorias-grid">
+    <div
+      *ngFor="let categoria of categorias"
+      class="categoria-card"
+      (click)="selecionarCategoria(categoria)"
+    >
+      <div class="categoria-icone">
+        <span class="emoji">{{ categoria.icone }}</span>
+      </div>
+      <div class="categoria-info">
+        <h3>{{ categoria.nome }}</h3>
+        <p>{{ categoria.descricao }}</p>
+      </div>
+      <div class="categoria-arrow">
+        <span>→</span>
+      </div>
+    </div>
+  </div>
+</div>

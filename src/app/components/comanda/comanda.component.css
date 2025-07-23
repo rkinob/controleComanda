@@ -1,0 +1,76 @@
+.comanda-container {
+  max-width: 600px;
+  margin: 60px auto;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+  padding: 40px 30px 30px 30px;
+  text-align: center;
+}
+
+h1 {
+  color: #667eea;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.comanda-vazia {
+  color: #888;
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+}
+
+.historico-pedidos {
+  margin-bottom: 30px;
+}
+
+.pedido-block {
+  background: #f3f3ff;
+  border-radius: 12px;
+  margin-bottom: 18px;
+  padding: 18px 12px;
+  text-align: left;
+}
+
+.pedido-block h3 {
+  color: #764ba2;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  margin-bottom: 8px;
+  font-size: 1rem;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.emoji {
+  font-size: 1.3rem;
+}
+
+.btn-fechar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  border-radius: 25px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+}
+
+.btn-fechar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+}

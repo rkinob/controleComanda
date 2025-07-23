@@ -1,0 +1,21 @@
+<div class="comanda-container">
+  <h1>Comanda</h1>
+  <button class="btn-voltar" (click)="continuarComprando()">
+    ← Continuar Pedindo
+  </button>
+  <div *ngIf="historico.length === 0" class="comanda-vazia">
+    <p>Nenhum pedido realizado ainda.</p>
+  </div>
+  <div *ngIf="historico.length > 0" class="historico-pedidos">
+    <div *ngFor="let pedido of historico; let i = index" class="pedido-block">
+      <h3>Pedido #{{ i + 1 }}</h3>
+      <ul>
+        <li *ngFor="let item of pedido">
+          <span class="emoji">{{ item.produto.imagem }}</span>
+          {{ item.produto.nome }} (x{{ item.quantidade }}) - R$ {{ (item.produto.preco * item.quantidade).toFixed(2).replace('.', ',') }}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <button class="btn-fechar" (click)="fecharComanda()">Fechar Comanda</button>
+</div>
