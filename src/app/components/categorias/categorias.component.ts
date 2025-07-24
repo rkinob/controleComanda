@@ -28,4 +28,13 @@ export class CategoriasComponent implements OnInit {
   selecionarCategoria(categoria: Categoria): void {
     this.router.navigate(['/produtos', categoria.id]);
   }
+
+  getImagemCategoria(categoria: Categoria): string {
+    return `assets/${categoria.id}.jpg`;
+  }
+
+  onImagemErro(event: Event): void {
+    const target = event.target as HTMLImageElement;
+    target.src = 'assets/image_large.gif';
+  }
 }

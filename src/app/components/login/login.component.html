@@ -20,7 +20,7 @@
 
     <div class="form-group">
       <label for="celular">Celular</label>
-      <input id="celular" type="tel" formControlName="celular" placeholder="Ex: 11999999999" />
+      <input id="celular" type="tel" formControlName="celular" maxlength="15" placeholder="Ex: 11999999999" />
       <div *ngIf="loginForm.get('celular')?.touched && loginForm.get('celular')?.invalid" class="error">
         Celular inválido.
       </div>

@@ -11,7 +11,7 @@
       (click)="selecionarCategoria(categoria)"
     >
       <div class="categoria-icone">
-        <span class="emoji">{{ categoria.icone }}</span>
+        <img [src]="getImagemCategoria(categoria)" (error)="onImagemErro($event)" [alt]="categoria.nome" class="imagem-categoria" />
       </div>
       <div class="categoria-info">
         <h3>{{ categoria.nome }}</h3>

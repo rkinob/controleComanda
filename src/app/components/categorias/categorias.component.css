@@ -61,6 +61,16 @@
   margin-bottom: 20px;
 }
 
+.imagem-categoria {
+  width: 100%;
+  max-height: 120px;
+  object-fit: contain;
+  border-radius: 16px;
+  background: #f3f3f3;
+  display: block;
+  margin: 0 auto;
+}
+
 .emoji {
   font-size: 4rem;
   display: block;
