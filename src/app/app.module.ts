@@ -12,6 +12,7 @@ import { CarrinhoComponent } from './components/carrinho/carrinho.component';
 import { ToastComponent } from './components/toast/toast.component';
 import { PedidoConfirmadoComponent } from './components/pedido-confirmado/pedido-confirmado.component';
 import { ComandaComponent } from './components/comanda/comanda.component';
+import { NotificationBellComponent } from './components/notification-bell/notification-bell.component';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
@@ -23,7 +24,8 @@ import { HttpClientModule } from '@angular/common/http';
     CarrinhoComponent,
     ToastComponent,
     PedidoConfirmadoComponent,
-    ComandaComponent
+    ComandaComponent,
+    NotificationBellComponent
   ],
   imports: [
     BrowserModule,

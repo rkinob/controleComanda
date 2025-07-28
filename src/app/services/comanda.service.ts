@@ -28,13 +28,21 @@ export interface Pedido {
 })
 export class ComandaService extends BaseService {
   private apiUrl = this.urlServiceV1;
-  public pedidos: Pedido[] = [];
+  //pedidos armazenados no sessionStorage
+  public pedidos: Pedido[] = JSON.parse(sessionStorage.getItem('pedidos') || '[]');
   public pedidosSubject = new BehaviorSubject<Pedido[]>(this.pedidos);
 
 
   constructor(private http: HttpClient) {
     super();
+    this.pedidosSubject.next(this.pedidos);
    }
+
+  //atualiza o sessionStorage
+  public atualizarSessionStorage() {
+    sessionStorage.setItem('pedidos', JSON.stringify(this.pedidos));
+    this.pedidosSubject.next([...this.pedidos]);
+  }
 
 
   registrarPedido(comandaId: number, itens: ItemCarrinho[]): Observable<any> {

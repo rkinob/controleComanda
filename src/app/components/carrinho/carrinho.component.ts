@@ -63,7 +63,7 @@ export class CarrinhoComponent implements OnInit {
         itens: this.itens
       });
       this.carrinhoService.limparCarrinho();
-      this.comandaService.pedidosSubject.next([...this.comandaService.pedidos]);
+      this.comandaService.atualizarSessionStorage();
       this.router.navigate(['/pedido-confirmado']);
     });
   }

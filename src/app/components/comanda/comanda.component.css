@@ -1,23 +1,55 @@
 .comanda-container {
-  max-width: 600px;
-  margin: 60px auto;
-  background: white;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
-  padding: 40px 30px 30px 30px;
-  text-align: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-h1 {
-  color: #667eea;
-  font-size: 2rem;
-  margin-bottom: 20px;
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  color: white;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: white;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.btn-voltar {
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.btn-voltar:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
 }
 
 .comanda-vazia {
-  color: #888;
-  font-size: 1.1rem;
-  margin-bottom: 30px;
+  text-align: center;
+  color: white;
+  padding: 50px;
+  font-size: 1.2rem;
 }
 
 .historico-pedidos {
@@ -25,17 +57,25 @@ h1 {
 }
 
 .pedido-block {
-  background: #f3f3ff;
-  border-radius: 12px;
-  margin-bottom: 18px;
-  padding: 18px 12px;
+  background: white;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  padding: 25px;
   text-align: left;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .pedido-block h3 {
-  color: #764ba2;
-  margin-bottom: 10px;
-  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.pedido-info {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
 }
 
 ul {
@@ -44,17 +84,47 @@ ul {
   margin: 0;
 }
 
-li {
-  margin-bottom: 8px;
+.item-pedido {
+  margin-bottom: 15px;
   font-size: 1rem;
   color: #333;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 8px;
 }
 
-.emoji {
-  font-size: 1.3rem;
+.imagem-produto {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.item-info {
+  flex: 1;
+}
+
+.item-nome {
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.item-detalhes {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.item-observacao {
+  color: #999;
+  font-size: 0.8rem;
+  font-style: italic;
+  margin-top: 4px;
+  display: block;
 }
 
 .btn-fechar {

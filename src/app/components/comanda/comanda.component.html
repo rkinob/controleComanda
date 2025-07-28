@@ -1,8 +1,13 @@
 <div class="comanda-container">
-  <h1>Comanda</h1>
-  <button class="btn-voltar" (click)="continuarComprando()">
-    ← Continuar Pedindo
-  </button>
+  <div class="header">
+    <h1>Comanda</h1>
+    <div class="header-actions">
+      <app-notification-bell></app-notification-bell>
+      <button class="btn-voltar" (click)="continuarComprando()">
+        ← Continuar Pedindo
+      </button>
+    </div>
+  </div>
   <div *ngIf="historico.length === 0" class="comanda-vazia">
     <p>Nenhum pedido realizado ainda.</p>
   </div>
@@ -16,7 +21,7 @@
           <img width="100px" height="100px" [src]="getImagemProduto(item.produto)" (error)="onImagemErro($event)" [alt]="item.produto?.nome" class="imagem-produto" />
           <div class="item-info">
             <span class="item-nome">{{ item.produto?.nome || 'Produto' }}</span>
-            <span class="item-detalhes">x{{ item.quantidade }} - R$ {{ item.preco | number:'1.2-2' }}</span>
+            <span class="item-detalhes"> x {{ item.quantidade }} - R$ {{ item.preco | number:'1.2-2' }}</span>
             <span *ngIf="item.observacao" class="item-observacao">Obs: {{ item.observacao }}</span>
           </div>
         </li>

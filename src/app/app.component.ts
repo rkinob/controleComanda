@@ -4,6 +4,7 @@ import { CarrinhoService } from './services/carrinho.service';
 import { Subscription } from 'rxjs';
 import { NotificacaoService } from './services/notificacao.service';
 import { ComandaService } from './services/comanda.service';
+import { PushNotificationService } from './services/push-notification.service';
 
 @Component({
   selector: 'app-root',
@@ -13,12 +14,14 @@ import { ComandaService } from './services/comanda.service';
 export class AppComponent implements OnInit, OnDestroy {
   title = 'restaurante-pedido';
   quantidadeItens: number = 0;
+  quantidadeNotificacoes: number = 0;
   quantidadeComandas: number = 0;
   subscription: Subscription = new Subscription();
   subscription2: Subscription = new Subscription();
   comandaId: number = 0;
   constructor(private router: Router, private carrinhoService: CarrinhoService, private notificacaoService: NotificacaoService,
-    private comandaService: ComandaService
+    private comandaService: ComandaService,
+    private pushNotificationService: PushNotificationService
   ) {}
 
   getQuantidadeItens()  {
@@ -42,6 +45,11 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getQuantidadeItens();
     this.getQuantidadeComandas();
+    this.pushNotificationService.getNotifications().subscribe(notifications => {
+      this.quantidadeNotificacoes = notifications.length;
+      //atualizar página
+      //this.router.navigate(['/'], { queryParams: { notificacoes: this.quantidadeNotificacoes } });
+    });
   }
 
   ngOnDestroy(): void {
