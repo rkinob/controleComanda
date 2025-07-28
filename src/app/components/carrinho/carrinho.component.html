@@ -2,16 +2,17 @@
   <div class="header">
     <button class="btn-voltar" (click)="continuarComprando()">
       ← Continuar Pedindo
-    </button>
-    <h1>🛒 Sua comanda</h1>
+    </button> &nbsp;
     <button *ngIf="itens.length > 0" class="btn-limpar" (click)="limparCarrinho()">
       Limpar
     </button>
   </div>
-
+  <div class="header">
+    <h1>🛒 Sua comanda</h1>
+  </div>
   <div *ngIf="itens.length === 0" class="carrinho-vazio">
     <div class="icone-vazio">🛒</div>
-    <h2>Sua comanda está vazia</h2>
+    <h2>Sua lista de pedidos está vazia</h2>
     <p>Adicione alguns produtos para começar!</p>
     <button class="btn-continuar" (click)="continuarComprando()">
       Ver Produtos
@@ -30,7 +31,7 @@
           <p *ngIf="item.produto.observacao" class="observacao">Obs: {{ item.produto.observacao }}</p>
           <p class="descricao">{{ item.produto.descricao }}</p>
           <div class="preco-unitario">
-            R$ {{ item.produto.preco.toFixed(2).replace('.', ',') }} cada
+            R$ {{ item.produto.preco | number:'1.2-2' }} cada
           </div>
         </div>
 
@@ -53,7 +54,7 @@
 
         <div class="item-preco">
           <span class="preco-total">
-            R$ {{ (item.produto.preco * item.quantidade).toFixed(2).replace('.', ',') }}
+            R$ {{ (item.produto.preco * item.quantidade) | number:'1.2-2' }}
           </span>
         </div>
 
@@ -61,9 +62,7 @@
           <button
             class="btn-remover"
             (click)="removerItem(item.produto.id)"
-          >
-            🗑️
-          </button>
+          >🗑️</button>
         </div>
       </div>
     </div>
@@ -72,11 +71,11 @@
       <h3>Resumo do Pedido</h3>
       <div class="resumo-item">
         <span>Itens ({{ getQuantidadeItens() }}):</span>
-        <span>R$ {{ total.toFixed(2).replace('.', ',') }}</span>
+        <span>R$ {{ total | number:'1.2-2' }}</span>
       </div>
       <div class="resumo-total">
         <span>Total:</span>
-        <span>R$ {{ total.toFixed(2).replace('.', ',') }}</span>
+        <span>R$ {{ total | number:'1.2-2' }}</span>
       </div>
 
       <button

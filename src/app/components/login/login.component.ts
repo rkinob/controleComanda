@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { ComandaService } from '../../services/comanda.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +16,9 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authService: AuthService,
+    private comandaService: ComandaService
   ) {}
 
   ngOnInit(): void {
@@ -35,7 +39,25 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     if (this.loginForm.valid) {
       const dados = this.loginForm.getRawValue();
-      this.router.navigate(['/categorias'], { queryParams: dados });
+      // Chama o endpoint de autenticação
+      this.authService.login(dados.celular, dados.mesa, dados.nome).subscribe(res => {
+        if (res.sucesso && res.token) {
+          sessionStorage.setItem('usuario-token', res.token);
+          // Cria nova comanda após autenticação
+          this.comandaService.abrirComanda(Number(dados.mesa), res.usuario.id).subscribe(comandaRes => {
+            if (comandaRes.sucesso && comandaRes.comanda_id) {
+              sessionStorage.setItem('comanda', JSON.stringify(comandaRes));
+              this.router.navigate(['/categorias'], { queryParams: dados });
+            } else {
+              this.mensagem = 'Erro ao abrir comanda.';
+            }
+          });
+        } else {
+          this.mensagem = 'Falha na autenticação.';
+        }
+      }, err => {
+        this.mensagem = 'Erro de comunicação com o servidor.';
+      });
     } else {
       this.loginForm.markAllAsTouched();
       this.mensagem = 'Preencha todos os campos corretamente.';

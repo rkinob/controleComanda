@@ -1,6 +1,14 @@
 <app-toast></app-toast>
 <router-outlet></router-outlet>
-
+<!-- Botão flutuante para acessar o carrinho -->
+<a
+  *ngIf="!isLoginRoute()"
+  class="btn-carrinho-flutuante"
+  routerLink="/carrinho"
+  title="Ver Carrinho"
+>
+  🛒 Pedidos ({{ quantidadeItens}})
+</a>
 <!-- Botão flutuante para acessar a comanda -->
 <a
   *ngIf="!isLoginRoute()"
@@ -8,5 +16,5 @@
   routerLink="/comanda"
   title="Ver Comanda"
 >
-  🧾 Comanda
+  🧾 Comanda ({{ quantidadeComandas }})
 </a>

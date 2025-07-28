@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Produto, ProdutoService } from '../../services/produto.service';
+import { Categoria, Produto, ProdutoService } from '../../services/produto.service';
 import { CarrinhoService } from '../../services/carrinho.service';
 import { NotificacaoService } from '../../services/notificacao.service';
 
@@ -14,7 +14,7 @@ export class ProdutosComponent implements OnInit {
   categoriaAtual: string = '';
   categoriaNome: string = '';
   loading: boolean = true;
-
+  categorias: Categoria[] = [];
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -27,26 +27,29 @@ export class ProdutosComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.categoriaAtual = params['categoria'];
       this.carregarProdutos();
+      this.produtoService.getCategorias().subscribe(categorias => {
+        this.categorias = categorias;
+       const categoria = this.categorias.filter(c => c.id == parseInt(this.categoriaAtual));
+
+        this.categoriaNome = categoria[0]?.nome || '';
+      });
     });
+
+
   }
 
   carregarProdutos(): void {
     this.loading = true;
     this.produtoService.getProdutosPorCategoria(this.categoriaAtual).subscribe(produtos => {
+      console.log(produtos);
       this.produtos = produtos;
-      this.categoriaNome = this.getCategoriaNome(this.categoriaAtual);
+
+      //this.categoriaNome = this.getCategoriaNome(this.categoriaAtual);
       this.loading = false;
     });
   }
 
-  getCategoriaNome(categoriaId: string): string {
-    const nomes: { [key: string]: string } = {
-      'lanches': 'Lanches',
-      'bebidas': 'Bebidas',
-      'porcoes': 'Porções'
-    };
-    return nomes[categoriaId] || categoriaId;
-  }
+
 
   adicionarAoCarrinho(produto: Produto): void {
     this.carrinhoService.adicionarItem(produto);

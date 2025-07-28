@@ -1,82 +1,61 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { BaseService } from './base.service';
 
 export interface Produto {
   id: number;
   nome: string;
   descricao: string;
   preco: number;
-  categoria: string;
+  categoria_id: string;
   imagem?: string;
-  observacao?: string; // Observação do cliente
+  observacao?: string;
 }
 
 export interface Categoria {
-  id: string;
+  id: number;
   nome: string;
-  icone: string;
-  descricao: string;
+  icone?: string;
+  descricao?: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProdutoService {
+export class ProdutoService extends BaseService {
+  private apiUrl = this.urlServiceV1;
 
-  private categorias: Categoria[] = [
-    {
-      id: 'lanches',
-      nome: 'Lanches',
-      icone: '🍔',
-      descricao: 'Hambúrgueres, sanduíches e outros lanches'
-    },
-    {
-      id: 'bebidas',
-      nome: 'Bebidas',
-      icone: '🥤',
-      descricao: 'Refrigerantes, sucos e outras bebidas'
-    },
-    {
-      id: 'porcoes',
-      nome: 'Porções',
-      icone: '🍟',
-      descricao: 'Porções de batata, frango e outros petiscos'
-    }
-  ];
-
-  private produtos: Produto[] = [
-    // Lanches
-    { id: 1, nome: 'X-Burger', descricao: 'Hambúrguer com queijo, alface e tomate', preco: 15.90, categoria: 'lanches', imagem: '🍔' },
-    { id: 2, nome: 'X-Salada', descricao: 'Hambúrguer com queijo, alface, tomate e maionese', preco: 18.90, categoria: 'lanches', imagem: '🥗' },
-    { id: 3, nome: 'X-Bacon', descricao: 'Hambúrguer com queijo, bacon e molho especial', preco: 22.90, categoria: 'lanches', imagem: '🥓' },
-    { id: 4, nome: 'Sanduíche Natural', descricao: 'Pão integral com frango, alface e tomate', preco: 12.90, categoria: 'lanches', imagem: '🥪' },
-
-    // Bebidas
-    { id: 5, nome: 'Coca-Cola', descricao: 'Refrigerante Coca-Cola 350ml', preco: 6.90, categoria: 'bebidas', imagem: '🥤' },
-    { id: 6, nome: 'Suco de Laranja', descricao: 'Suco natural de laranja 300ml', preco: 8.90, categoria: 'bebidas', imagem: '🍊' },
-    { id: 7, nome: 'Água Mineral', descricao: 'Água mineral sem gás 500ml', preco: 4.90, categoria: 'bebidas', imagem: '💧' },
-    { id: 8, nome: 'Milk Shake', descricao: 'Milk shake de chocolate, morango ou baunilha', preco: 12.90, categoria: 'bebidas', imagem: '🥛' },
-
-    // Porções
-    { id: 9, nome: 'Batata Frita', descricao: 'Porção de batata frita crocante', preco: 16.90, categoria: 'porcoes', imagem: '🍟' },
-    { id: 10, nome: 'Frango à Passarinho', descricao: 'Porção de frango empanado e frito', preco: 24.90, categoria: 'porcoes', imagem: '🍗' },
-    { id: 11, nome: 'Mandioca Frita', descricao: 'Porção de mandioca frita com sal', preco: 14.90, categoria: 'porcoes', imagem: '🥔' },
-    { id: 12, nome: 'Cebola Empanada', descricao: 'Porção de cebola empanada e frita', preco: 13.90, categoria: 'porcoes', imagem: '🧅' }
-  ];
-
-  constructor() { }
+  constructor(private http: HttpClient) {
+    super();
+  }
 
   getCategorias(): Observable<Categoria[]> {
-    return of(this.categorias);
+    return this.http.get<Categoria[]>(`${this.apiUrl}/categorias.php`, this.ObterAuthHeaderJson());
+  }
+
+  getProdutos(): Observable<Produto[]> {
+    return this.http.get<Produto[]>(`${this.apiUrl}/produtos.php`, this.ObterAuthHeaderJson());
   }
 
   getProdutosPorCategoria(categoria: string): Observable<Produto[]> {
-    const produtosFiltrados = this.produtos.filter(produto => produto.categoria === categoria);
-    return of(produtosFiltrados);
+    // Busca todos e filtra no frontend, ou crie endpoint específico no backend
+    return new Observable<Produto[]>(observer => {
+      this.getProdutos().subscribe(produtos => {
+        console.log(produtos);
+        console.log(categoria);
+        observer.next(produtos.filter(p => p.categoria_id === categoria));
+        observer.complete();
+      }, err => observer.error(err));
+    });
   }
 
   getProdutoPorId(id: number): Observable<Produto | undefined> {
-    const produto = this.produtos.find(p => p.id === id);
-    return of(produto);
+    return new Observable<Produto | undefined>(observer => {
+      this.getProdutos().subscribe(produtos => {
+        observer.next(produtos.find(p => p.id === id));
+        observer.complete();
+      }, err => observer.error(err));
+    });
   }
 }

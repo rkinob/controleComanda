@@ -12,6 +12,7 @@ import { CarrinhoComponent } from './components/carrinho/carrinho.component';
 import { ToastComponent } from './components/toast/toast.component';
 import { PedidoConfirmadoComponent } from './components/pedido-confirmado/pedido-confirmado.component';
 import { ComandaComponent } from './components/comanda/comanda.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ComandaComponent } from './components/comanda/comanda.component';
     AppRoutingModule,
     ZXingScannerModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

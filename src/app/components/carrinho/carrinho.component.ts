@@ -12,6 +12,7 @@ import { ComandaService } from '../../services/comanda.service';
 export class CarrinhoComponent implements OnInit {
   itens: ItemCarrinho[] = [];
   total: number = 0;
+  comandaId: number = 1; // Exemplo: atribua o ID real da comanda aberta
 
   constructor(
     private carrinhoService: CarrinhoService,
@@ -46,9 +47,25 @@ export class CarrinhoComponent implements OnInit {
   }
 
   finalizarPedido(): void {
-    this.comandaService.registrarPedido(this.itens);
-    this.carrinhoService.limparCarrinho();
-    this.router.navigate(['/pedido-confirmado']);
+    const comandaStr = sessionStorage.getItem('comanda');
+    if (comandaStr) {
+      const comandaObj = JSON.parse(comandaStr);
+      this.comandaId = comandaObj.comanda_id || comandaObj.id || 1;
+    }
+
+    this.comandaService.registrarPedido(this.comandaId, this.itens).subscribe((pedido) => {
+      this.comandaService.pedidos.push({
+        id: pedido.id,
+        comanda_id: this.comandaId,
+        quantidade: this.itens.length,
+        preco: pedido.preco,
+        status: 'Pendente',
+        itens: this.itens
+      });
+      this.carrinhoService.limparCarrinho();
+      this.comandaService.pedidosSubject.next([...this.comandaService.pedidos]);
+      this.router.navigate(['/pedido-confirmado']);
+    });
   }
 
   getQuantidadeItens(): number {

@@ -11,10 +11,13 @@ export interface ItemCarrinho {
   providedIn: 'root'
 })
 export class CarrinhoService {
-  private itensCarrinho: ItemCarrinho[] = [];
-  private carrinhoSubject = new BehaviorSubject<ItemCarrinho[]>([]);
+  // itens do carrinho armazenados no sessionStorage
+  private itensCarrinho: ItemCarrinho[] = JSON.parse(sessionStorage.getItem('carrinho') || '[]');
+    private carrinhoSubject = new BehaviorSubject<ItemCarrinho[]>(this.itensCarrinho);
 
-  constructor() { }
+  constructor() {
+    this.carrinhoSubject.next(this.itensCarrinho);
+  }
 
   getItens(): Observable<ItemCarrinho[]> {
     return this.carrinhoSubject.asObservable();
@@ -28,12 +31,13 @@ export class CarrinhoService {
     } else {
       this.itensCarrinho.push({ produto, quantidade: 1 });
     }
-
+    sessionStorage.setItem('carrinho', JSON.stringify(this.itensCarrinho));
     this.carrinhoSubject.next([...this.itensCarrinho]);
   }
 
   removerItem(produtoId: number): void {
     this.itensCarrinho = this.itensCarrinho.filter(item => item.produto.id !== produtoId);
+    sessionStorage.setItem('carrinho', JSON.stringify(this.itensCarrinho));
     this.carrinhoSubject.next([...this.itensCarrinho]);
   }
 
@@ -48,11 +52,13 @@ export class CarrinhoService {
         this.carrinhoSubject.next([...this.itensCarrinho]);
       }
     }
+    sessionStorage.setItem('carrinho', JSON.stringify(this.itensCarrinho));
   }
 
   limparCarrinho(): void {
     this.itensCarrinho = [];
     this.carrinhoSubject.next([]);
+    sessionStorage.removeItem('carrinho');
   }
 
   getTotal(): number {
