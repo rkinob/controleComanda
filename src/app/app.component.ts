@@ -36,9 +36,14 @@ export class AppComponent implements OnInit, OnDestroy {
 
   getQuantidadeComandas() {
     //pega o id da comanda aberta
-    const comandaId = sessionStorage.getItem('comanda');
-    if (comandaId) {
-      this.comandaId = parseInt(comandaId);
+    const comandaData = sessionStorage.getItem('comanda');
+    if (comandaData) {
+      try {
+        const comanda = JSON.parse(comandaData);
+        this.comandaId = comanda.comanda_id || 0;
+      } catch (e) {
+        this.comandaId = 0;
+      }
     }
     this.quantidadeComandas = 0;
     this.unsubscribes.push(this.comandaService.pedidosSubject.subscribe(pedidos => {

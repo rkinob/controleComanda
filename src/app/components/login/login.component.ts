@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ComandaService } from '../../services/comanda.service';
 import { NotificacaoService } from 'src/app/services/notificacao.service';
+import { CarrinhoService } from '../../services/carrinho.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,8 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private authService: AuthService,
     private comandaService: ComandaService,
-    private notificacaoService: NotificacaoService
+    private notificacaoService: NotificacaoService,
+    private carrinhoService: CarrinhoService
   ) {}
 
   ngOnInit(): void {
@@ -58,6 +60,9 @@ export class LoginComponent implements OnInit {
               console.log(comandaRes);
               sessionStorage.setItem('comanda', JSON.stringify(comandaRes));
 
+              // Atualiza os valores no app.component após login bem-sucedido
+              this.atualizarValoresAppComponent();
+
               this.router.navigate(['/categorias']);
             } else {
               this.notificacaoService.mostrar('Erro ao abrir comanda.', 3000);
@@ -72,6 +77,27 @@ export class LoginComponent implements OnInit {
     } else {
       this.loginForm.markAllAsTouched();
       this.notificacaoService.mostrar('Preencha todos os campos corretamente.', 3000);
+    }
+  }
+
+  /**
+   * Atualiza os valores no app.component após login bem-sucedido
+   * Força a atualização dos contadores de itens e comandas
+   */
+  private atualizarValoresAppComponent(): void {
+    // Limpa o carrinho e força atualização do observable
+    this.carrinhoService.limparCarrinho();
+
+    // Atualiza quantidade de comandas/pedidos
+    const comandaData = sessionStorage.getItem('comanda');
+    if (comandaData) {
+      const comanda = JSON.parse(comandaData);
+      if (comanda.comanda_id) {
+        this.comandaService.getPedidos(comanda.comanda_id).subscribe(pedidos => {
+          // Força a atualização do observable de pedidos
+          this.comandaService.pedidosSubject.next(pedidos);
+        });
+      }
     }
   }
 }
