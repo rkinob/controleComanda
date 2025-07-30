@@ -1,4 +1,4 @@
-# 🍽️ Sistema de Pedidos - Frontend Angular
+# 🍽️ Sistema de Comanda - Frontend Angular
 
 Interface moderna para sistema de pedidos de restaurante desenvolvida em Angular.
 
