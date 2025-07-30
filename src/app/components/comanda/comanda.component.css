@@ -128,9 +128,9 @@ ul {
 }
 
 .btn-fechar {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.3);
   color: white;
-  border: none;
   padding: 15px 40px;
   border-radius: 25px;
   font-size: 1.1rem;
@@ -138,9 +138,10 @@ ul {
   cursor: pointer;
   transition: all 0.3s ease;
   margin-top: 20px;
+  backdrop-filter: blur(10px);
 }
 
 .btn-fechar:hover {
+  background: rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
 }

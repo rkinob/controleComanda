@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, ElementRef } from '@angular/core';
 import { PushNotificationService, Notification } from '../../services/push-notification.service';
 import { Subscription } from 'rxjs';
 
@@ -14,7 +14,10 @@ export class NotificationBellComponent implements OnInit, OnDestroy {
   private notificationsSubscription: Subscription = new Subscription();
   private unreadCountSubscription: Subscription = new Subscription();
 
-  constructor(private notificationService: PushNotificationService) {}
+  constructor(
+    private notificationService: PushNotificationService,
+    private elementRef: ElementRef
+  ) {}
 
   ngOnInit(): void {
     this.notificationsSubscription = this.notificationService.getNotifications()
@@ -37,19 +40,58 @@ export class NotificationBellComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Listener para cliques fora do componente
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event): void {
+    // Verifica se o clique foi fora do componente
+    if (!this.elementRef.nativeElement.contains(event.target as Node)) {
+      this.closeDropdown();
+    }
+  }
+
+  // Listener para tecla Escape
+  @HostListener('document:keydown.escape')
+  onEscapeKey(): void {
+    this.closeDropdown();
+  }
+
   toggleDropdown(): void {
     this.showDropdown = !this.showDropdown;
   }
 
+  closeDropdown(): void {
+    this.showDropdown = false;
+  }
+
   markAsRead(notification: Notification): void {
-    this.notificationService.markAsRead(notification.id).subscribe(() => {
-      // The service will automatically update the notifications
+    console.log(`[NotificationBell] Marcando notificação #${notification.id} como lida`);
+
+    this.notificationService.markAsRead(notification.id).subscribe({
+      next: (response) => {
+        console.log(`[NotificationBell] Notificação #${notification.id} marcada como lida com sucesso`, response);
+        // Atualiza localmente para feedback imediato
+        notification.lida = true;
+      },
+      error: (error) => {
+        console.error(`[NotificationBell] Erro ao marcar notificação #${notification.id} como lida:`, error);
+      }
     });
   }
 
   markAllAsRead(): void {
-    this.notificationService.markAllAsRead().subscribe(() => {
-      // The service will automatically update the notifications
+    console.log('[NotificationBell] Marcando todas as notificações como lidas');
+
+    this.notificationService.markAllAsRead().subscribe({
+      next: (response) => {
+        console.log('[NotificationBell] Todas as notificações marcadas como lidas com sucesso', response);
+        // Atualiza localmente para feedback imediato
+        this.notifications.forEach(notification => {
+          notification.lida = true;
+        });
+      },
+      error: (error) => {
+        console.error('[NotificationBell] Erro ao marcar todas as notificações como lidas:', error);
+      }
     });
   }
 

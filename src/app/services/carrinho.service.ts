@@ -23,16 +23,20 @@ export class CarrinhoService {
     return this.carrinhoSubject.asObservable();
   }
 
-  adicionarItem(produto: Produto): void {
+  adicionarItem(produto: Produto): boolean {
     const itemExistente = this.itensCarrinho.find(item => item.produto.id === produto.id);
 
     if (itemExistente) {
-      itemExistente.quantidade += 1;
+      //itemExistente.quantidade += 1;
+      return false;
     } else {
       this.itensCarrinho.push({ produto, quantidade: 1 });
+
     }
     sessionStorage.setItem('carrinho', JSON.stringify(this.itensCarrinho));
     this.carrinhoSubject.next([...this.itensCarrinho]);
+    return true;
+
   }
 
   removerItem(produtoId: number): void {
@@ -53,6 +57,16 @@ export class CarrinhoService {
       }
     }
     sessionStorage.setItem('carrinho', JSON.stringify(this.itensCarrinho));
+  }
+
+  atualizarObservacao(produtoId: number, observacao: string): void {
+    const item = this.itensCarrinho.find(item => item.produto.id === produtoId);
+
+    if (item) {
+      item.produto.observacao = observacao;
+      sessionStorage.setItem('carrinho', JSON.stringify(this.itensCarrinho));
+      this.carrinhoSubject.next([...this.itensCarrinho]);
+    }
   }
 
   limparCarrinho(): void {

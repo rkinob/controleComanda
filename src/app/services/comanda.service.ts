@@ -41,20 +41,20 @@ export class ComandaService extends BaseService {
   //atualiza o sessionStorage
   public atualizarSessionStorage() {
     sessionStorage.setItem('pedidos', JSON.stringify(this.pedidos));
-    this.pedidosSubject.next([...this.pedidos]);
+   // this.pedidosSubject.next([...this.pedidos]);
   }
 
 
   registrarPedido(comandaId: number, itens: ItemCarrinho[]): Observable<any> {
     // Envia todos os itens em um único pedido
-    const pedidos = itens.map(item => ({
+    const Incluirpedidos = itens.map(item => ({
       comanda_id: comandaId,
       produto_id: item.produto.id,
       quantidade: item.quantidade,
       observacao: item.produto.observacao || ''
     }));
     // Envia o array completo de itens
-    return this.http.post(`${this.apiUrl}/pedidos.php`, pedidos, this.ObterAuthHeaderJson());
+    return this.http.post(`${this.apiUrl}/pedidos.php`, Incluirpedidos, this.ObterAuthHeaderJson());
   }
 
   getComandas(): Observable<Comanda[]> {

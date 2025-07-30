@@ -47,3 +47,26 @@
   transform: translateY(-3px) scale(1.04);
   box-shadow: 0 8px 24px rgba(102, 126, 234, 0.28);
 }
+
+.btn-notificacoes-flutuante {
+  position: fixed;
+  right: 30px;
+  bottom: 800px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 16px 28px;
+    border-radius: 30px;
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.18);
+    z-index: 9999;
+    text-decoration: none;
+    transition: all 0.3s;
+    display: flex;
+  }
+
+.btn-notificacoes-flutuante:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.28);
+}

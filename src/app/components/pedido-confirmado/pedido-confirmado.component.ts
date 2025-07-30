@@ -21,6 +21,26 @@ export class PedidoConfirmadoComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    console.log('Pedido confirmado');
+    const comandaStr = sessionStorage.getItem('comanda');
+
+    if (comandaStr) {
+      try {
+        const comandaObj = JSON.parse(comandaStr);
+        this.comandaId = comandaObj.comanda_id || comandaObj.id || 1;
+      } catch (e) {
+        this.comandaId = 1;
+      }
+    }
+
+    this.comandaService.pedidosSubject.next([]);
+
+    this.comandaService.getPedidos(this.comandaId).subscribe(pedidos => {
+
+      this.comandaService.pedidosSubject.next(pedidos);
+      this.comandaService.atualizarSessionStorage();
+    });
+
   }
 
   ngOnDestroy(): void {
@@ -44,11 +64,12 @@ export class PedidoConfirmadoComponent implements OnInit, OnDestroy {
       next: (response) => {
         // Mostra mensagem de sucesso
         this.notificacaoService.mostrar('Comanda fechada com sucesso!', 3000);
-
+        this.comandaService.pedidosSubject.next([]);
         // Limpa o carrinho e dados da sessão
         this.carrinhoService.limparCarrinho();
         sessionStorage.removeItem('comanda');
         sessionStorage.removeItem('usuario-token');
+        sessionStorage.removeItem('pedidos');
 
         // Aguarda um pouco para mostrar a mensagem antes de redirecionar
         setTimeout(() => {

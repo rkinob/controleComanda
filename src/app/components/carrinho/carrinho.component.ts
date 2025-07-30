@@ -32,6 +32,13 @@ export class CarrinhoComponent implements OnInit {
     this.carrinhoService.alterarQuantidade(produtoId, novaQuantidade);
   }
 
+  salvarObservacao(produtoId: number, observacao: string): void {
+    this.carrinhoService.atualizarObservacao(produtoId, observacao);
+    /*if (observacao && observacao.trim()) {
+      this.notificacaoService.mostrar('Observação salva!');
+    }*/
+  }
+
   removerItem(produtoId: number): void {
     this.carrinhoService.removerItem(produtoId);
     this.notificacaoService.mostrar('Produto removido do carrinho!');
@@ -54,14 +61,16 @@ export class CarrinhoComponent implements OnInit {
     }
 
     this.comandaService.registrarPedido(this.comandaId, this.itens).subscribe((pedido) => {
-      this.comandaService.pedidos.push({
+      //this.comandaService.pedidosSubject.next([...this.comandaService.pedidos]);
+      //console.log(pedido);
+     /* this.comandaService.pedidos.push({
         id: pedido.id,
         comanda_id: this.comandaId,
         quantidade: this.itens.length,
         preco: pedido.preco,
         status: 'Pendente',
         itens: this.itens
-      });
+      });*/
       this.carrinhoService.limparCarrinho();
       this.comandaService.atualizarSessionStorage();
       this.router.navigate(['/pedido-confirmado']);

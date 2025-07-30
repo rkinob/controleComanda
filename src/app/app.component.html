@@ -1,5 +1,7 @@
 <app-toast></app-toast>
 <router-outlet></router-outlet>
+<app-notification-bell   *ngIf="!isLoginRoute()" class="btn-notificacoes-flutuante"></app-notification-bell>
+
 <!-- Botão flutuante para acessar o carrinho -->
 <a
   *ngIf="!isLoginRoute()"

@@ -28,7 +28,15 @@
 
         <div class="item-info">
           <h3>{{ item.produto.nome }}</h3>
-          <p *ngIf="item.produto.observacao" class="observacao">Obs: {{ item.produto.observacao }}</p>
+          <div class="observacao-container">
+            <textarea
+              class="observacao-editavel"
+              [(ngModel)]="item.produto.observacao"
+              placeholder="Adicionar observação..."
+             style="width: 90%;"
+              (blur)="salvarObservacao(item.produto.id, item.produto.observacao || '')"
+            ></textarea>
+          </div>
           <p class="descricao">{{ item.produto.descricao }}</p>
           <div class="preco-unitario">
             R$ {{ item.produto.preco | number:'1.2-2' }} cada

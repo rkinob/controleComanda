@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, interval } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from './base.service';
-import { switchMap, startWith } from 'rxjs/operators';
+import { switchMap, startWith, map } from 'rxjs/operators';
 
 export interface Notification {
   id: number;
@@ -54,12 +54,31 @@ export class PushNotificationService extends BaseService {
       )
       .subscribe(
         (notifications) => {
-          this.notificationsSubject.next(notifications);
+          // Verifica se há novas notificações
+          const currentNotifications = this.notificationsSubject.value;
+          const hasNewNotifications = this.hasNewNotifications(currentNotifications, notifications);
+
+          if (hasNewNotifications) {
+            this.notificationsSubject.next(notifications);
+          }
         },
         (error) => {
           console.error('Error fetching notifications:', error);
         }
       );
+  }
+
+  // Verifica se há novas notificações
+  private hasNewNotifications(current: Notification[], incoming: Notification[]): boolean {
+    if (current.length !== incoming.length) {
+      return true;
+    }
+
+    // Verifica se há notificações com IDs diferentes
+    const currentIds = current.map(n => n.id).sort();
+    const incomingIds = incoming.map(n => n.id).sort();
+
+    return !currentIds.every((id, index) => id === incomingIds[index]);
   }
 
   // Fetch notifications from server
@@ -81,6 +100,19 @@ export class PushNotificationService extends BaseService {
       `${this.apiUrl}/notificacoes.php`,
       { id: notificationId, lida: true },
       this.ObterAuthHeaderJson()
+    ).pipe(
+      map(response => {
+        // Atualiza a lista local após marcar como lida
+        const currentNotifications = this.notificationsSubject.value;
+        const updatedNotifications = currentNotifications.map(notification => {
+          if (notification.id === notificationId) {
+            return { ...notification, lida: true };
+          }
+          return notification;
+        });
+        this.notificationsSubject.next(updatedNotifications);
+        return response;
+      })
     );
   }
 
@@ -95,6 +127,17 @@ export class PushNotificationService extends BaseService {
       `${this.apiUrl}/notificacoes.php`,
       { comanda_id: comandaId, marcar_todas_lidas: true },
       this.ObterAuthHeaderJson()
+    ).pipe(
+      map(response => {
+        // Atualiza a lista local após marcar todas como lidas
+        const currentNotifications = this.notificationsSubject.value;
+        const updatedNotifications = currentNotifications.map(notification => ({
+          ...notification,
+          lida: true
+        }));
+        this.notificationsSubject.next(updatedNotifications);
+        return response;
+      })
     );
   }
 
@@ -129,5 +172,17 @@ export class PushNotificationService extends BaseService {
   // Resume polling (useful when user logs in)
   resumePolling(): void {
     this.startPolling();
+  }
+
+  // Get notifications of a specific type and action
+  getNotificationsByType(tipo: 'pedido' | 'comanda', acao: string): Observable<Notification[]> {
+    return this.getNotifications().pipe(
+      map(notifications => notifications.filter(n => n.tipo === tipo && n.acao === acao))
+    );
+  }
+
+  // Get cancellation notifications specifically
+  getCancellationNotifications(): Observable<Notification[]> {
+    return this.getNotificationsByType('pedido', 'cancelado');
   }
 }

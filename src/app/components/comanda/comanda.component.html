@@ -2,7 +2,7 @@
   <div class="header">
     <h1>Comanda</h1>
     <div class="header-actions">
-      <app-notification-bell></app-notification-bell>
+
       <button class="btn-voltar" (click)="continuarComprando()">
         ← Continuar Pedindo
       </button>
@@ -17,7 +17,6 @@
       <p class="pedido-info">Total: R$ {{ pedido.preco | number:'1.2-2' }} | {{ pedido.quantidade }} itens</p>
       <ul>
         <li *ngFor="let item of pedido.itens" class="item-pedido">
-
           <img width="100px" height="100px" [src]="getImagemProduto(item.produto)" (error)="onImagemErro($event)" [alt]="item.produto?.nome" class="imagem-produto" />
           <div class="item-info">
             <span class="item-nome">{{ item.produto?.nome || 'Produto' }}</span>
