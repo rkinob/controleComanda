@@ -2,23 +2,13 @@
 
 Interface moderna para sistema de pedidos de restaurante desenvolvida em Angular.
 
-## 📋 Índice
-
-- [Funcionalidades](#funcionalidades)
-- [Tecnologias Utilizadas](#tecnologias-utilizadas)
-- [Pré-requisitos](#pré-requisitos)
-- [Instalação](#instalação)
-- [Como Usar](#como-usar)
-- [Estrutura do Projeto](#estrutura-do-projeto)
-
 ## ✨ Funcionalidades
 
 - **🔐 Sistema de Login**: Autenticação com JWT
 - **🛒 Carrinho de Compras**: Adicionar, remover e gerenciar itens
 - **📋 Histórico de Pedidos**: Visualizar pedidos realizados
 - **🔔 Notificações em Tempo Real**: Atualizações automáticas de status
-- **📊 Gestão de Produtos**: Categorias e produtos organizados
-- **💳 Controle de Comandas**: Sistema completo de comandas
+- **💳 Controle de Comandas**: Sistema para enviar comanda
 
 ## 🛠️ Tecnologias Utilizadas
 
