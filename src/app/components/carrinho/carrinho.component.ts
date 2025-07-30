@@ -54,6 +54,17 @@ export class CarrinhoComponent implements OnInit {
   }
 
   finalizarPedido(): void {
+    if (this.itens.length === 0) {
+      this.notificacaoService.mostrar('Não há itens no carrinho!');
+      return;
+    }
+
+    if (this.total === 0) {
+      this.notificacaoService.mostrar('Não há itens no carrinho!');
+      return;
+    }
+
+    if(confirm('Deseja finalizar o pedido?')) {
     const comandaStr = sessionStorage.getItem('comanda');
     if (comandaStr) {
       const comandaObj = JSON.parse(comandaStr);
@@ -74,7 +85,8 @@ export class CarrinhoComponent implements OnInit {
       this.carrinhoService.limparCarrinho();
       this.comandaService.atualizarSessionStorage();
       this.router.navigate(['/pedido-confirmado']);
-    });
+      });
+    }
   }
 
   getQuantidadeItens(): number {

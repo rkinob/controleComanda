@@ -1,27 +1,389 @@
-# RestaurantePedido
+# 🍽️ Sistema de Pedidos - Frontend Angular
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.5.
+Interface moderna para sistema de pedidos de restaurante desenvolvida em Angular.
 
-## Development server
+## 📋 Índice
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- [Funcionalidades](#funcionalidades)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Pré-requisitos](#pré-requisitos)
+- [Instalação](#instalação)
+- [Como Usar](#como-usar)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Desenvolvimento](#desenvolvimento)
 
-## Code scaffolding
+## ✨ Funcionalidades
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- **🔐 Sistema de Login**: Autenticação segura com JWT
+- **📱 Interface Responsiva**: Design moderno e adaptável
+- **🛒 Carrinho de Compras**: Adicionar, remover e gerenciar itens
+- **📋 Histórico de Pedidos**: Visualizar pedidos realizados
+- **🔔 Notificações em Tempo Real**: Atualizações automáticas de status
+- **📊 Gestão de Produtos**: Categorias e produtos organizados
+- **💳 Controle de Comandas**: Sistema completo de comandas
 
-## Build
+## 🛠️ Tecnologias Utilizadas
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- **Angular 15+**: Framework principal
+- **TypeScript**: Linguagem de programação
+- **CSS3**: Estilização moderna com gradientes e efeitos
+- **HTML5**: Estrutura semântica
+- **RxJS**: Programação reativa
+- **Angular Services**: Gerenciamento de estado e comunicação com API
 
-## Running unit tests
+## 📋 Pré-requisitos
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- **Node.js** (versão 16 ou superior)
+- **npm** ou **yarn**
+- **Angular CLI** (versão 15 ou superior)
 
-## Running end-to-end tests
+## 🚀 Instalação
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+### 1. Clone o Repositório
 
-## Further help
+```bash
+git clone https://github.com/seu-usuario/restaurante-pedido.git
+cd restaurante-pedido
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### 2. Instale as Dependências
+
+```bash
+npm install
+```
+
+### 3. Configure a API
+
+Edite o arquivo `src/app/services/base.service.ts`:
+
+```typescript
+private baseUrl = 'http://localhost/restaurante/';
+```
+
+### 4. Configure o Ambiente
+
+Edite `src/environments/environment.ts`:
+
+```typescript
+export const environment = {
+  production: false,
+  apiUrl: 'http://localhost/restaurante/'
+};
+```
+
+## 🎯 Como Usar
+
+### 1. Iniciar o Desenvolvimento
+
+```bash
+# Inicie o servidor de desenvolvimento
+ng serve
+
+# Acesse http://localhost:4200
+```
+
+### 2. Fluxo de Uso do Sistema
+
+#### **Login**
+1. Acesse a aplicação em `http://localhost:4200`
+2. Digite suas credenciais no formulário de login
+3. O sistema autentica e redireciona para as categorias
+
+#### **Fazer um Pedido**
+1. **Selecione uma Categoria**: Escolha entre as categorias disponíveis
+2. **Escolha os Produtos**: Clique nos produtos desejados
+3. **Adicione ao Carrinho**: Use o botão "+" para adicionar itens
+4. **Adicione Observações**: (Opcional) Digite observações especiais
+5. **Confirme o Pedido**: Revise e confirme seu pedido
+
+#### **Gerenciar Pedidos**
+1. **Visualizar Carrinho**: Acesse o ícone do carrinho no header
+2. **Editar Quantidades**: Ajuste as quantidades dos itens
+3. **Remover Itens**: Use o botão "-" para remover
+4. **Finalizar Pedido**: Confirme para enviar ao restaurante
+
+#### **Acompanhar Pedidos**
+1. **Histórico**: Acesse a aba "Comanda"
+2. **Status em Tempo Real**: Veja atualizações automáticas
+3. **Notificações**: Receba alertas de mudanças de status
+
+### 3. Funcionalidades Principais
+
+#### **Carrinho de Compras**
+- ✅ Adicionar/remover itens
+- ✅ Ajustar quantidades
+- ✅ Adicionar observações
+- ✅ Cálculo automático de valores
+
+#### **Sistema de Notificações**
+- 🔔 Atualizações de status em tempo real
+- 📱 Notificações push (se suportado)
+- ⏰ Alertas automáticos
+
+#### **Gestão de Comandas**
+- 📋 Histórico completo de pedidos
+- 📊 Status detalhado de cada pedido
+- 💰 Controle de valores e pagamentos
+
+## 📁 Estrutura do Projeto
+
+```
+src/
+├── app/
+│   ├── components/
+│   │   ├── carrinho/              # Componente do carrinho
+│   │   │   ├── carrinho.component.ts
+│   │   │   ├── carrinho.component.html
+│   │   │   └── carrinho.component.css
+│   │   ├── categorias/            # Lista de categorias
+│   │   │   ├── categorias.component.ts
+│   │   │   ├── categorias.component.html
+│   │   │   └── categorias.component.css
+│   │   ├── comanda/               # Histórico de pedidos
+│   │   │   ├── comanda.component.ts
+│   │   │   ├── comanda.component.html
+│   │   │   └── comanda.component.css
+│   │   ├── login/                 # Tela de login
+│   │   │   ├── login.component.ts
+│   │   │   ├── login.component.html
+│   │   │   └── login.component.css
+│   │   ├── produtos/              # Lista de produtos
+│   │   │   ├── produtos.component.ts
+│   │   │   ├── produtos.component.html
+│   │   │   └── produtos.component.css
+│   │   ├── notification-bell/      # Sino de notificações
+│   │   │   ├── notification-bell.component.ts
+│   │   │   └── notification-bell.component.html
+│   │   ├── pedido-confirmado/      # Confirmação de pedido
+│   │   │   ├── pedido-confirmado.component.ts
+│   │   │   ├── pedido-confirmado.component.html
+│   │   │   └── pedido-confirmado.component.css
+│   │   └── toast/                 # Notificações toast
+│   │       ├── toast.component.ts
+│   │       ├── toast.component.html
+│   │       └── toast.component.css
+│   ├── services/
+│   │   ├── auth.service.ts        # Autenticação
+│   │   ├── base.service.ts        # Serviço base para API
+│   │   ├── carrinho.service.ts    # Gestão do carrinho
+│   │   ├── comanda.service.ts     # Histórico de pedidos
+│   │   ├── notificacao.service.ts # Notificações
+│   │   ├── produto.service.ts     # Produtos e categorias
+│   │   └── push-notification.service.ts # Push notifications
+│   ├── utils/
+│   │   └── sessionStorage.ts      # Gerenciamento de sessão
+│   ├── app.component.ts           # Componente principal
+│   ├── app.component.html         # Template principal
+│   ├── app.component.css          # Estilos globais
+│   ├── app.module.ts              # Módulo principal
+│   └── app-routing.module.ts      # Configuração de rotas
+├── assets/                        # Imagens e recursos
+├── environments/                   # Configurações de ambiente
+│   ├── environment.ts             # Desenvolvimento
+│   └── environment.prod.ts        # Produção
+├── index.html                     # HTML principal
+├── main.ts                        # Ponto de entrada
+└── styles.css                     # Estilos globais
+```
+
+## 🛠️ Desenvolvimento
+
+### Comandos Úteis
+
+```bash
+# Servidor de desenvolvimento
+ng serve
+
+# Build para produção
+ng build --prod
+
+# Executar testes unitários
+ng test
+
+# Executar testes e2e
+ng e2e
+
+# Gerar novo componente
+ng generate component nome-do-componente
+
+# Gerar novo serviço
+ng generate service nome-do-servico
+
+# Gerar novo pipe
+ng generate pipe nome-do-pipe
+```
+
+### Estrutura dos Componentes
+
+Cada componente segue a estrutura padrão do Angular:
+
+```typescript
+// nome.component.ts
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-nome',
+  templateUrl: './nome.component.html',
+  styleUrls: ['./nome.component.css']
+})
+export class NomeComponent implements OnInit {
+  // Lógica do componente
+}
+```
+
+### Serviços
+
+Os serviços gerenciam a comunicação com a API e o estado da aplicação:
+
+```typescript
+// exemplo.service.ts
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ExemploService {
+  constructor(private http: HttpClient) {}
+
+  getDados(): Observable<any> {
+    return this.http.get('/api/dados');
+  }
+}
+```
+
+### Roteamento
+
+As rotas estão configuradas em `app-routing.module.ts`:
+
+```typescript
+const routes: Routes = [
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: 'categorias', component: CategoriasComponent },
+  { path: 'produtos/:categoria', component: ProdutosComponent },
+  { path: 'carrinho', component: CarrinhoComponent },
+  { path: 'comanda', component: ComandaComponent },
+  { path: 'pedido-confirmado', component: PedidoConfirmadoComponent }
+];
+```
+
+## 🎨 Estilização
+
+### CSS Global
+- **Gradientes**: Design moderno com gradientes
+- **Responsividade**: Adaptável a diferentes telas
+- **Animações**: Transições suaves e efeitos hover
+- **Flexbox/Grid**: Layout moderno e flexível
+
+### Componentes Estilizados
+- **Login**: Formulário com validação visual
+- **Categorias**: Cards com hover effects
+- **Produtos**: Grid responsivo com imagens
+- **Carrinho**: Lista com controles de quantidade
+- **Comanda**: Histórico com status coloridos
+
+## 🔧 Configuração Avançada
+
+### Variáveis de Ambiente
+
+```typescript
+// environment.ts
+export const environment = {
+  production: false,
+  apiUrl: 'http://localhost/restaurante/',
+  version: '1.0.0'
+};
+```
+
+### Interceptors HTTP
+
+Para adicionar headers de autenticação automaticamente:
+
+```typescript
+// auth.interceptor.ts
+@Injectable()
+export class AuthInterceptor implements HttpInterceptor {
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const token = sessionStorage.getItem('token');
+    if (token) {
+      req = req.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+    }
+    return next.handle(req);
+  }
+}
+```
+
+## 🚀 Deploy
+
+### Build para Produção
+
+```bash
+# Build otimizado
+ng build --prod
+
+# Os arquivos ficam em dist/restaurante-pedido/
+# Copie para seu servidor web
+```
+
+### Configuração do Servidor
+
+Para servidores Apache, adicione um `.htaccess`:
+
+```apache
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index\.html$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.html [L]
+```
+
+## 🐛 Solução de Problemas
+
+### Problemas Comuns
+
+1. **Erro de CORS**
+   ```bash
+   # Configure o proxy no angular.json
+   "proxyConfig": "src/proxy.conf.json"
+   ```
+
+2. **Erro de Módulos**
+   ```bash
+   # Reinstale as dependências
+   rm -rf node_modules package-lock.json
+   npm install
+   ```
+
+3. **Erro de Build**
+   ```bash
+   # Limpe o cache
+   ng cache clean
+   ```
+
+### Logs de Debug
+
+```bash
+# Angular com logs detalhados
+ng serve --verbose
+
+# Build com source maps
+ng build --source-map
+```
+
+## 📚 Recursos Adicionais
+
+- [Documentação Angular](https://angular.io/docs)
+- [Angular CLI](https://cli.angular.io/)
+- [RxJS](https://rxjs.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+
+---
+
+⭐ **Se este projeto te ajudou, considere dar uma estrela!**
