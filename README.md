@@ -2,25 +2,13 @@
 
 Interface moderna para sistema de pedidos de restaurante desenvolvida em Angular.
 
-## 📋 Índice
-
-- [Funcionalidades](#funcionalidades)
-- [Tecnologias Utilizadas](#tecnologias-utilizadas)
-- [Pré-requisitos](#pré-requisitos)
-- [Instalação](#instalação)
-- [Como Usar](#como-usar)
-- [Estrutura do Projeto](#estrutura-do-projeto)
-- [Desenvolvimento](#desenvolvimento)
-
 ## ✨ Funcionalidades
 
-- **🔐 Sistema de Login**: Autenticação segura com JWT
-- **📱 Interface Responsiva**: Design moderno e adaptável
+- **🔐 Sistema de Login**: Autenticação com JWT
 - **🛒 Carrinho de Compras**: Adicionar, remover e gerenciar itens
 - **📋 Histórico de Pedidos**: Visualizar pedidos realizados
 - **🔔 Notificações em Tempo Real**: Atualizações automáticas de status
-- **📊 Gestão de Produtos**: Categorias e produtos organizados
-- **💳 Controle de Comandas**: Sistema completo de comandas
+- **💳 Controle de Comandas**: Sistema para enviar comanda
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -52,15 +40,7 @@ cd restaurante-pedido
 npm install
 ```
 
-### 3. Configure a API
-
-Edite o arquivo `src/app/services/base.service.ts`:
-
-```typescript
-private baseUrl = 'http://localhost/restaurante/';
-```
-
-### 4. Configure o Ambiente
+### 3. Configure o Ambiente
 
 Edite `src/environments/environment.ts`:
 
@@ -70,6 +50,7 @@ export const environment = {
   apiUrl: 'http://localhost/restaurante/'
 };
 ```
+
 
 ## 🎯 Como Usar
 
@@ -186,33 +167,6 @@ src/
 └── styles.css                     # Estilos globais
 ```
 
-## 🛠️ Desenvolvimento
-
-### Comandos Úteis
-
-```bash
-# Servidor de desenvolvimento
-ng serve
-
-# Build para produção
-ng build --prod
-
-# Executar testes unitários
-ng test
-
-# Executar testes e2e
-ng e2e
-
-# Gerar novo componente
-ng generate component nome-do-componente
-
-# Gerar novo serviço
-ng generate service nome-do-servico
-
-# Gerar novo pipe
-ng generate pipe nome-do-pipe
-```
-
 ### Estrutura dos Componentes
 
 Cada componente segue a estrutura padrão do Angular:
@@ -231,27 +185,6 @@ export class NomeComponent implements OnInit {
 }
 ```
 
-### Serviços
-
-Os serviços gerenciam a comunicação com a API e o estado da aplicação:
-
-```typescript
-// exemplo.service.ts
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-
-@Injectable({
-  providedIn: 'root'
-})
-export class ExemploService {
-  constructor(private http: HttpClient) {}
-
-  getDados(): Observable<any> {
-    return this.http.get('/api/dados');
-  }
-}
-```
 
 ### Roteamento
 
@@ -269,55 +202,6 @@ const routes: Routes = [
 ];
 ```
 
-## 🎨 Estilização
-
-### CSS Global
-- **Gradientes**: Design moderno com gradientes
-- **Responsividade**: Adaptável a diferentes telas
-- **Animações**: Transições suaves e efeitos hover
-- **Flexbox/Grid**: Layout moderno e flexível
-
-### Componentes Estilizados
-- **Login**: Formulário com validação visual
-- **Categorias**: Cards com hover effects
-- **Produtos**: Grid responsivo com imagens
-- **Carrinho**: Lista com controles de quantidade
-- **Comanda**: Histórico com status coloridos
-
-## 🔧 Configuração Avançada
-
-### Variáveis de Ambiente
-
-```typescript
-// environment.ts
-export const environment = {
-  production: false,
-  apiUrl: 'http://localhost/restaurante/',
-  version: '1.0.0'
-};
-```
-
-### Interceptors HTTP
-
-Para adicionar headers de autenticação automaticamente:
-
-```typescript
-// auth.interceptor.ts
-@Injectable()
-export class AuthInterceptor implements HttpInterceptor {
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = sessionStorage.getItem('token');
-    if (token) {
-      req = req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-    }
-    return next.handle(req);
-  }
-}
-```
 
 ## 🚀 Deploy
 
@@ -331,59 +215,7 @@ ng build --prod
 # Copie para seu servidor web
 ```
 
-### Configuração do Servidor
 
-Para servidores Apache, adicione um `.htaccess`:
 
-```apache
-RewriteEngine On
-RewriteBase /
-RewriteRule ^index\.html$ - [L]
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /index.html [L]
-```
-
-## 🐛 Solução de Problemas
-
-### Problemas Comuns
-
-1. **Erro de CORS**
-   ```bash
-   # Configure o proxy no angular.json
-   "proxyConfig": "src/proxy.conf.json"
-   ```
-
-2. **Erro de Módulos**
-   ```bash
-   # Reinstale as dependências
-   rm -rf node_modules package-lock.json
-   npm install
-   ```
-
-3. **Erro de Build**
-   ```bash
-   # Limpe o cache
-   ng cache clean
-   ```
-
-### Logs de Debug
-
-```bash
-# Angular com logs detalhados
-ng serve --verbose
-
-# Build com source maps
-ng build --source-map
-```
-
-## 📚 Recursos Adicionais
-
-- [Documentação Angular](https://angular.io/docs)
-- [Angular CLI](https://cli.angular.io/)
-- [RxJS](https://rxjs.dev/)
-- [TypeScript](https://www.typescriptlang.org/)
-
----
 
 ⭐ **Se este projeto te ajudou, considere dar uma estrela!**
