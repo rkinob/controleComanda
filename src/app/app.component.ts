@@ -42,7 +42,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     this.quantidadeComandas = 0;
     this.unsubscribes.push(this.comandaService.pedidosSubject.subscribe(pedidos => {
-      console.log(pedidos);
+     // console.log(pedidos);
       this.quantidadeComandas = pedidos.length;
     }));
   }

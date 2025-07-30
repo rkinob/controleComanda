@@ -42,8 +42,8 @@ export class ProdutoService extends BaseService {
     // Busca todos e filtra no frontend, ou crie endpoint específico no backend
     return new Observable<Produto[]>(observer => {
       this.getProdutos().subscribe(produtos => {
-        console.log(produtos);
-        console.log(categoria);
+     //   console.log(produtos);
+      //  console.log(categoria);
         observer.next(produtos.filter(p => p.categoria_id === categoria));
         observer.complete();
       }, err => observer.error(err));

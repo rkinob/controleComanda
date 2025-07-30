@@ -14,6 +14,7 @@ import { PedidoConfirmadoComponent } from './components/pedido-confirmado/pedido
 import { ComandaComponent } from './components/comanda/comanda.component';
 import { NotificationBellComponent } from './components/notification-bell/notification-bell.component';
 import { HttpClientModule } from '@angular/common/http';
+import { CurrencyBrPipe } from './pipes/currency-br.pipe';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { HttpClientModule } from '@angular/common/http';
     ToastComponent,
     PedidoConfirmadoComponent,
     ComandaComponent,
-    NotificationBellComponent
+    NotificationBellComponent,
+    CurrencyBrPipe
   ],
   imports: [
     BrowserModule,

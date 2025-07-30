@@ -39,7 +39,7 @@
           </div>
           <p class="descricao">{{ item.produto.descricao }}</p>
           <div class="preco-unitario">
-            R$ {{ item.produto.preco | number:'1.2-2' }} cada
+            {{ item.produto.preco | currencyBr }} cada
           </div>
         </div>
 
@@ -62,7 +62,7 @@
 
         <div class="item-preco">
           <span class="preco-total">
-            R$ {{ (item.produto.preco * item.quantidade) | number:'1.2-2' }}
+            {{ (item.produto.preco * item.quantidade) | currencyBr }}
           </span>
         </div>
 
@@ -79,11 +79,11 @@
       <h3>Resumo do Pedido</h3>
       <div class="resumo-item">
         <span>Itens ({{ getQuantidadeItens() }}):</span>
-        <span>R$ {{ total | number:'1.2-2' }}</span>
+        <span>{{ total | currencyBr }}</span>
       </div>
       <div class="resumo-total">
         <span>Total:</span>
-        <span>R$ {{ total | number:'1.2-2' }}</span>
+        <span>{{ total | currencyBr }}</span>
       </div>
 
       <button

@@ -41,7 +41,7 @@ export class ProdutosComponent implements OnInit {
   carregarProdutos(): void {
     this.loading = true;
     this.produtoService.getProdutosPorCategoria(this.categoriaAtual).subscribe(produtos => {
-      console.log(produtos);
+     // console.log(produtos);
       this.produtos = produtos;
 
       //this.categoriaNome = this.getCategoriaNome(this.categoriaAtual);
