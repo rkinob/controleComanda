@@ -30,7 +30,7 @@ export class CategoriasComponent implements OnInit {
   }
 
   getImagemCategoria(categoria: Categoria): string {
-    return `assets/${categoria.id}.jpg`;
+    return `assets/cat${categoria.id}.jpg`;
   }
 
   onImagemErro(event: Event): void {

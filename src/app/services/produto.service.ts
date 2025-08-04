@@ -39,15 +39,7 @@ export class ProdutoService extends BaseService {
   }
 
   getProdutosPorCategoria(categoria: string): Observable<Produto[]> {
-    // Busca todos e filtra no frontend, ou crie endpoint específico no backend
-    return new Observable<Produto[]>(observer => {
-      this.getProdutos().subscribe(produtos => {
-     //   console.log(produtos);
-      //  console.log(categoria);
-        observer.next(produtos.filter(p => p.categoria_id === categoria));
-        observer.complete();
-      }, err => observer.error(err));
-    });
+    return this.http.get<Produto[]>(`${this.apiUrl}/produtos.php?categoria_id=${categoria}`, this.ObterAuthHeaderJson());
   }
 
   getProdutoPorId(id: number): Observable<Produto | undefined> {

@@ -72,6 +72,38 @@ export class ComandaComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
+  // Retorna a classe CSS baseada no status do pedido
+  getStatusClass(status: string): string {
+    switch (status?.toLowerCase()) {
+      case 'entregue':
+        return 'status-entregue';
+      case 'preparando':
+        return 'status-preparando';
+      case 'confirmado':
+        return 'status-confirmado';
+      case 'cancelado':
+        return 'status-cancelado';
+      default:
+        return 'status-pendente';
+    }
+  }
+
+  // Retorna o texto formatado do status
+  getStatusText(status: string): string {
+    switch (status?.toLowerCase()) {
+      case 'entregue':
+        return '✅ Entregue';
+      case 'preparando':
+        return '👨‍🍳 Preparando';
+      case 'confirmado':
+        return '✅ Confirmado';
+      case 'cancelado':
+        return '❌ Cancelado';
+      default:
+        return '⏳ Pendente';
+    }
+  }
+
   fecharComanda(): void {
     //confirmar a ação de fechar a comanda
     if (confirm('Tem certeza que deseja fechar a comanda?')) {

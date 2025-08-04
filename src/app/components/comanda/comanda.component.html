@@ -13,13 +13,16 @@
   </div>
   <div *ngIf="historico.length > 0" class="historico-pedidos">
     <div *ngFor="let pedido of historico; let i = index" class="pedido-block">
-      <h3>Pedido #{{ i + 1 }} - Status: {{ pedido.status }}</h3>
+      <h3 [ngClass]="getStatusClass(pedido.status)">
+        Pedido #{{ i + 1 }} - Status: {{ getStatusText(pedido.status) }}
+      </h3>
       <p class="pedido-info">Total: {{ pedido.preco | currencyBr }} | {{ pedido.quantidade }} itens</p>
       <ul>
         <li *ngFor="let item of pedido.itens" class="item-pedido">
           <img width="100px" height="100px" [src]="getImagemProduto(item.produto)" (error)="onImagemErro($event)" [alt]="item.produto?.nome" class="imagem-produto" />
           <div class="item-info">
             <span class="item-nome">{{ item.produto?.nome || 'Produto' }}</span>
+            <span *ngIf="item.produto?.descricao" class="item-descricao">{{ item.produto.descricao }}</span>
             <span class="item-detalhes"> x {{ item.quantidade }} - {{ item.preco | currencyBr }}</span>
             <span *ngIf="item.observacao" class="item-observacao">Obs: {{ item.observacao }}</span>
           </div>

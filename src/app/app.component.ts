@@ -112,6 +112,50 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Processamento global de pedidos entregues
+  private processarPedidosEntregues() {
+    this.unsubscribes.push(this.pushNotificationService.getNotificationsByType('pedido', 'entregue').subscribe(notifications => {
+      if (notifications.length > 0) {
+        console.log(`[App] Processando ${notifications.length} notificação(ões) de pedidos entregues`);
+
+        notifications.forEach(notificacao => {
+          if (notificacao.pedido_id) {
+            this.processarPedidoEntregue(notificacao.pedido_id);
+          }
+        });
+
+        // Sincroniza com o backend após processar todos os pedidos entregues
+        setTimeout(() => {
+          this.sincronizarPedidosComBackend();
+        }, 1000);
+      }
+    }));
+  }
+
+  // Processa um pedido entregue individual
+  private processarPedidoEntregue(pedidoId: number): void {
+    console.log(`[App] Processando entrega do pedido #${pedidoId}`);
+
+    // Atualiza o status do pedido na lista global
+    const pedidosAtuais = this.comandaService.pedidosSubject.value;
+    const pedidoIndex = pedidosAtuais.findIndex(pedido => pedido.id === pedidoId);
+
+    if (pedidoIndex !== -1) {
+      const pedidoAtualizado = { ...pedidosAtuais[pedidoIndex], status: 'entregue' };
+      pedidosAtuais[pedidoIndex] = pedidoAtualizado;
+
+      // Atualiza a lista global
+      this.comandaService.pedidosSubject.next([...pedidosAtuais]);
+
+      console.log(`[App] Pedido #${pedidoId} marcado como entregue na lista global`);
+
+      // Mostra notificação para o usuário
+      this.notificacaoService.mostrar(`🎉 Pedido #${pedidoId} foi entregue! Aproveite!`, 5000);
+    } else {
+      console.log(`[App] Pedido #${pedidoId} não encontrado na lista global para atualização`);
+    }
+  }
+
   ngOnInit(): void {
     this.getQuantidadeItens();
     this.getQuantidadeComandas();
@@ -123,6 +167,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // Processamento global de cancelamentos
     this.processarCancelamentosGlobais();
+
+    // Processamento global de pedidos entregues
+    this.processarPedidosEntregues();
   }
 
   ngOnDestroy(): void {

@@ -26,7 +26,7 @@
 
       <div class="produto-info">
         <h3>{{ produto.nome }}</h3>
-        <p class="descricao">{{ produto.descricao }}</p>
+        <p class="descricao" *ngIf="produto.descricao">{{ produto.descricao }}</p>
         <div class="preco">
           <span class="valor">{{ produto.preco | currencyBr }}</span>
         </div>
